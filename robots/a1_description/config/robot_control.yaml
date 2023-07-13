@@ -2,7 +2,7 @@ a1_gazebo:
     # Publish all joint states -----------------------------------
     joint_state_controller:
         type: joint_state_controller/JointStateController
-        publish_rate: 1000  
+        publish_rate: 5000  
 
     # FL Controllers ---------------------------------------
     FL_hip_controller:
