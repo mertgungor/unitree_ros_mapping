@@ -55,12 +55,17 @@
     <plugin filename="libLinkPlot3DPlugin.so" name="3dplotTrunk">
       <frequency>10</frequency>
       <plot>
-        <link>base</link>
+        <link>base_link</link>
         <pose>0 0 0 0 0 0</pose>
         <material>Gazebo/Yellow</material>
       </plot>
     </plugin>
   </gazebo>
+
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" organize_cloud="${organize_cloud}" hz="10" samples="440" gpu="${gpu}">
+    <origin xyz="0 0 0.4" rpy="0 0 0" />
+  </xacro:VLP-16>
   <!-- Show the trajectory of foot. You can add another trajectory about another foot. -->
   <gazebo>
     <plugin filename="libLinkPlot3DPlugin.so" name="3dplot">
@@ -163,7 +168,7 @@
       </plugin>
     </visual>
   </gazebo>
-  <gazebo reference="base">
+  <gazebo reference="base_link">
     <material>Gazebo/Green</material>
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
@@ -296,13 +301,13 @@
   <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
   <!-- <xacro:if value="$(arg DEBUG)">
         <link name="world"/>
-        <joint name="base_static_joint" type="fixed">
+        <joint name="base_link_static_joint" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <parent link="world"/>
-            <child link="base"/>
+            <child link="base_link"/>
         </joint>
     </xacro:if>  -->
-  <link name="base">
+  <link name="base_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -310,9 +315,9 @@
       </geometry>
     </visual>
   </link>
-  <joint name="floating_base" type="fixed">
+  <joint name="floating_base_link" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="base"/>
+    <parent link="base_link"/>
     <child link="trunk"/>
   </joint>
   <link name="trunk">
